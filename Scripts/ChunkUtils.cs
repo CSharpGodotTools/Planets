@@ -6,10 +6,10 @@ namespace Planets;
 
 public class ChunkUtils
 {
-    public static Mesh GenerateMesh(Vector3 posA, Vector3 posB, Vector3 posC, int resolution)
+    public static Mesh GenerateMesh(Vector3 posA, Vector3 posB, Vector3 posC, PlanetSettings settings)
     {
-        Vector3[] vertices = BuildVertices(posA, posB, posC, resolution);
-        int[] indices = BuildIndices(resolution);
+        Vector3[] vertices = BuildVertices(posA, posB, posC, settings);
+        int[] indices = BuildIndices(settings.Resolution);
 
         return GenerateWithComplexNormals(vertices, indices, GenerateColors(vertices));
     }
@@ -87,8 +87,10 @@ public class ChunkUtils
         return colors;
     }
 
-    private static Vector3[] BuildVertices(Vector3 posA, Vector3 posB, Vector3 posC, int res)
+    private static Vector3[] BuildVertices(Vector3 posA, Vector3 posB, Vector3 posC, PlanetSettings settings)
     {
+        int res = settings.Resolution;
+
         List<Vector3> vertices =
         [
             // The 3 main corners
@@ -114,26 +116,18 @@ public class ChunkUtils
             }
         }
 
-        vertices = DeformVertices(vertices);
+        vertices = DeformVertices(vertices, settings);
 
-        return vertices.ToArray();
+        return [.. vertices];
     }
 
-    private static List<Vector3> DeformVertices(List<Vector3> vertices)
+    private static List<Vector3> DeformVertices(List<Vector3> vertices, PlanetSettings settings)
     {
-        FastNoiseLite noise = new()
-        {
-            Frequency = 0.003f
-        };
-
-        int noiseStrength = 1000;
-        int planetRadius = 10;
-
         for (int i = 0; i < vertices.Count; i++)
         {
-            float n = noise.GetNoise3Dv(vertices[i] * noiseStrength);
+            float n = settings.Noise.GetNoise3Dv(vertices[i] * settings.NoiseStrength);
 
-            vertices[i] = vertices[i].Normalized() * (planetRadius + n);
+            vertices[i] = vertices[i].Normalized() * (settings.Radius + n);
         }
 
         return vertices;
@@ -148,7 +142,7 @@ public class ChunkUtils
         if (res <= 0)
         {
             indices.AddRange([0, 1, 2]);
-            return indices.ToArray();
+            return [.. indices];
         }
 
         // Index Legend
@@ -209,7 +203,7 @@ public class ChunkUtils
             indices.AddRange(triCenter);
         }
 
-        return indices.ToArray();
+        return [.. indices];
     }
 
     private static List<int> IndicesOuterEdgeRight(int res, int rightFirst, int center)
