@@ -11,5 +11,6 @@
   <ItemGroup>
     <PackageReference Include="ENet-CSharp" Version="2.4.8" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <Reference Include="GodotUtils" HintPath="Libraries/GodotUtils.dll" />
   </ItemGroup>
 </Project>

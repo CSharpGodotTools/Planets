@@ -164,7 +164,7 @@ public class ChunkUtils
 
         // The center points
         int center = 3 + (res * 3);
-        var centerBottomRight = center + CMath.SumNaturalNumbers(res) - 1;
+        var centerBottomRight = center + MathUtils.SumNaturalNumbers(res) - 1;
         var centerBottomLeft = centerBottomRight - res + 2;
 
         // The last point in each midpoint array
@@ -224,7 +224,7 @@ public class ChunkUtils
             [
                 rightFirst + i,
                 rightFirst + i + 1,
-                center + CMath.SumNaturalNumbers(i + 2) - 1
+                center + MathUtils.SumNaturalNumbers(i + 2) - 1
             ]);
         }
 
@@ -233,9 +233,9 @@ public class ChunkUtils
         {
             indices.AddRange(
             [
-                center + CMath.SumNaturalNumbers(i + 2) - 1,
+                center + MathUtils.SumNaturalNumbers(i + 2) - 1,
                 rightFirst + i + 1,
-                center + CMath.SumNaturalNumbers(i + 3) - 1
+                center + MathUtils.SumNaturalNumbers(i + 3) - 1
             ]);
         }
 
@@ -253,7 +253,7 @@ public class ChunkUtils
             indices.AddRange(
             [
                 leftFirst + i,
-                center + CMath.SumNaturalNumbers(i + 2) - i - 1,
+                center + MathUtils.SumNaturalNumbers(i + 2) - i - 1,
                 leftFirst + i + 1
             ]);
         }
@@ -264,8 +264,8 @@ public class ChunkUtils
             indices.AddRange(
             [
                 leftFirst + i + 1,
-                center + CMath.SumNaturalNumbers(i + 2) - i - 1,
-                center + CMath.SumNaturalNumbers(i + 3) - i - 2
+                center + MathUtils.SumNaturalNumbers(i + 2) - i - 1,
+                center + MathUtils.SumNaturalNumbers(i + 3) - i - 2
             ]);
         }
 
@@ -312,8 +312,8 @@ public class ChunkUtils
         {
             for (int i = 0; i < row; i++)
             {
-                var row1 = CMath.SumNaturalNumbers(row) + i;
-                var row2 = CMath.SumNaturalNumbers(row + 1) + i;
+                var row1 = MathUtils.SumNaturalNumbers(row) + i;
+                var row2 = MathUtils.SumNaturalNumbers(row + 1) + i;
 
                 var x = row2;
                 var y = row1;
@@ -330,8 +330,8 @@ public class ChunkUtils
         {
             for (int i = 0; i < row; i++)
             {
-                var row1 = CMath.SumNaturalNumbers(row + 1) + i;
-                var row2 = CMath.SumNaturalNumbers(row + 2) + i;
+                var row1 = MathUtils.SumNaturalNumbers(row + 1) + i;
+                var row2 = MathUtils.SumNaturalNumbers(row + 2) + i;
 
                 var x = row1;
                 var y = row1 + 1;
@@ -348,7 +348,7 @@ public class ChunkUtils
 
     private static Vector3[] GenerateCenterPoints(Vector3[] edgeMidpointsLeft, Vector3[] edgeMidpointsRight, int resolution)
     {
-        Vector3[] centerPoints = new Vector3[CMath.SumNaturalNumbers(resolution)];
+        Vector3[] centerPoints = new Vector3[MathUtils.SumNaturalNumbers(resolution)];
 
         int index = 0;
 
