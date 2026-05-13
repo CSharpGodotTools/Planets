@@ -11,7 +11,7 @@ public class ChunkUtils
         Vector3[] vertices = BuildVertices(posA, posB, posC, settings);
         int[] indices = BuildIndices(settings.Resolution);
 
-        return GenerateWithComplexNormals(vertices, indices, GenerateColors(vertices));
+        return GenerateWithSimpleNormals(vertices, indices, GenerateColors(vertices), settings);
     }
 
     private static ArrayMesh GenerateWithComplexNormals(Vector3[] vertices, int[] indices, Color[] colors)
@@ -39,21 +39,14 @@ public class ChunkUtils
         return st.Commit();
     }
 
-    private static ArrayMesh GenerateWithSimpleNormals(Vector3[] vertices, int[] indices, Color[] colors)
+    private static ArrayMesh GenerateWithSimpleNormals(Vector3[] vertices, int[] indices, Color[] colors, PlanetSettings settings)
     {
         Godot.Collections.Array arrays = [];
         arrays.Resize((int)Mesh.ArrayType.Max);
         arrays[(int)Mesh.ArrayType.Vertex] = vertices;
 
-        Vector3[] normals = new Vector3[vertices.Length];
-
-        for (int i = 0; i < normals.Length; i++)
-        {
-            normals[i] = vertices[i].Normalized();
-        }
-
+        Vector3[] normals = GenerateNoiseNormals(vertices, settings);
         arrays[(int)Mesh.ArrayType.Normal] = normals;
-        //arrays[(int)Mesh.ArrayType.TexUv] = uvs;
 
         if (colors != null)
         {
@@ -66,6 +59,61 @@ public class ChunkUtils
         mesh.AddSurfaceFromArrays(Mesh.PrimitiveType.Triangles, arrays);
 
         return mesh;
+    }
+
+    private static Vector3[] GenerateNoiseNormals(Vector3[] vertices, PlanetSettings settings)
+    {
+        Vector3[] normals = new Vector3[vertices.Length];
+
+        const float epsilon = 0.01f;
+        float strength = settings.NoiseStrength;
+
+        const float intensity = 5f;
+
+        for (int i = 0; i < normals.Length; i++)
+        {
+            Vector3 direction = vertices[i].Normalized();
+            BuildOrthonormalBasis(direction, out Vector3 tangent, out Vector3 bitangent);
+
+            float hLeft  = GetRawNoise(direction - tangent * epsilon, settings, strength);
+            float hRight = GetRawNoise(direction + tangent * epsilon, settings, strength);
+            float hDown  = GetRawNoise(direction - bitangent * epsilon, settings, strength);
+            float hUp    = GetRawNoise(direction + bitangent * epsilon, settings, strength);
+
+            float dx = (hLeft - hRight) * intensity;
+            float dy = (hDown - hUp) * intensity;
+
+            normals[i] = (direction + (tangent * dx) + (bitangent * dy)).Normalized();
+        }
+
+        return normals;
+    }
+
+    private static float GetRawNoise(Vector3 direction, PlanetSettings settings, float strength)
+    {
+        return settings.Noise.GetNoise3Dv(direction.Normalized() * strength);
+    }
+
+    private static float SampleHeight(Vector3 direction, PlanetSettings settings)
+    {
+        float n = settings.Noise.GetNoise3Dv(direction * settings.NoiseStrength);
+        return settings.Radius + n;
+    }
+
+    private static void BuildOrthonormalBasis(Vector3 normal, out Vector3 tangent, out Vector3 bitangent)
+    {
+        if (normal.Z < -0.999999f)
+        {
+            tangent = new Vector3(0f, -1f, 0f);
+            bitangent = new Vector3(-1f, 0f, 0f);
+            return;
+        }
+
+        float a = 1.0f / (1.0f + normal.Z);
+        float b = -normal.X * normal.Y * a;
+
+        tangent = new Vector3(1.0f - normal.X * normal.X * a, b, -normal.X);
+        bitangent = new Vector3(b, 1.0f - normal.Y * normal.Y * a, -normal.Y);
     }
 
     private static Color[] GenerateColors(Vector3[] vertices)
@@ -125,9 +173,8 @@ public class ChunkUtils
     {
         for (int i = 0; i < vertices.Count; i++)
         {
-            float n = settings.Noise.GetNoise3Dv(vertices[i] * settings.NoiseStrength);
-
-            vertices[i] = vertices[i].Normalized() * (settings.Radius + n);
+            Vector3 direction = vertices[i].Normalized();
+            vertices[i] = direction * SampleHeight(direction, settings);
         }
 
         return vertices;

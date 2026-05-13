@@ -9,7 +9,7 @@ public partial class Planet : Node3D
 
     public override void _Ready()
     {
-        //GetViewport().DebugDraw = Viewport.DebugDrawEnum.Overdraw;
+        //GetViewport().DebugDraw = Viewport.DebugDrawEnum.Wireframe;
 
         ArgumentNullException.ThrowIfNull(_settings);
 

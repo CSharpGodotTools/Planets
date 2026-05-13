@@ -5,6 +5,9 @@
 [ext_resource type="Script" uid="uid://cdx6lr1qdokho" path="res://Scripts/PlanetSettings.cs" id="2_qnopr"]
 [ext_resource type="Shader" uid="uid://cwas4o0j5n8v3" path="res://water.gdshader" id="3_rujla"]
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_qnopr"]
+frequency = 0.003
+
 [sub_resource type="Resource" id="Resource_1a6ar"]
 script = ExtResource("2_qnopr")
 metadata/_custom_type_script = "uid://cdx6lr1qdokho"
@@ -107,4 +110,4 @@ transform = Transform3D(1, 0, 1.49012e-07, 0, 1, 0, -1.49012e-07, 0, 1, 0, 0, 16
 environment = SubResource("Environment_fx7rt")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2091121517]
-transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0)
+transform = Transform3D(1, 0, 0, 0, 1.0000002, 1.748456e-07, 0, -1.748456e-07, 1.0000002, 0, 0, 0)
