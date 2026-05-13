@@ -1,3 +1,5 @@
+The planet is a subdivided icosahedron using triangles.
+
 [Planet.webm](https://github.com/user-attachments/assets/d5da4128-3947-4328-b2af-1c5d6b50037b)
 
 ![1](https://user-images.githubusercontent.com/6277739/234654811-2a35c727-ebdc-4a58-8427-4893b93de0dd.png)
@@ -17,3 +19,6 @@
 - Valheim like terrain system
 - Pathfinding
 - Only chunks around player are rendered
+- Performance enhancements
+- GPU rendering?
+- Godot Render Server conversion
