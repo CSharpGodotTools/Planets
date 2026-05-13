@@ -71,13 +71,13 @@ sky_material = SubResource("ProceduralSkyMaterial_onqla")
 [sub_resource type="Environment" id="Environment_fx7rt"]
 background_mode = 1
 sky = SubResource("Sky_w0xmk")
-ambient_light_source = 1
-tonemap_mode = 2
-tonemap_exposure = 0.9
-ssr_enabled = true
-ssao_enabled = true
-ssil_enabled = true
+tonemap_mode = 4
 glow_enabled = true
+glow_blend_mode = 2
+volumetric_fog_density = 0.1781
+volumetric_fog_albedo = Color(0, 0, 0, 1)
+adjustment_enabled = true
+adjustment_saturation = 1.5
 
 [node name="Level" type="Node3D" unique_id=943105663]
 
