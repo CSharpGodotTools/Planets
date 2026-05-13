@@ -1,34 +1,34 @@
-[gd_scene load_steps=15 format=3 uid="uid://bmu34hfw77kcw"]
+[gd_scene format=3 uid="uid://bmu34hfw77kcw"]
 
-[ext_resource type="Script" path="res://Scripts/Planet.cs" id="1_8qujs"]
-[ext_resource type="Script" path="res://Scripts/CameraController.cs" id="2_anx2t"]
-[ext_resource type="Shader" path="res://water.gdshader" id="3_rujla"]
+[ext_resource type="Script" uid="uid://c67dcia4sg8kc" path="res://Scripts/Planet.cs" id="1_8qujs"]
+[ext_resource type="Script" uid="uid://84qpag8awspc" path="res://Scripts/CameraController.cs" id="2_anx2t"]
+[ext_resource type="Shader" uid="uid://cwas4o0j5n8v3" path="res://water.gdshader" id="3_rujla"]
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_tnw6u"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_j176p"]
+noise = SubResource("FastNoiseLite_tnw6u")
 seamless = true
 as_normal_map = true
 bump_strength = 2.0
-noise = SubResource("FastNoiseLite_tnw6u")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_60ide"]
 noise_type = 3
 seed = 10
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_ygkpg"]
+noise = SubResource("FastNoiseLite_60ide")
 seamless = true
 as_normal_map = true
 bump_strength = 4.0
-noise = SubResource("FastNoiseLite_60ide")
 
 [sub_resource type="FastNoiseLite" id="FastNoiseLite_fkgku"]
 
 [sub_resource type="NoiseTexture2D" id="NoiseTexture2D_y1cd4"]
+noise = SubResource("FastNoiseLite_fkgku")
 seamless = true
 as_normal_map = true
 bump_strength = 50.0
-noise = SubResource("FastNoiseLite_fkgku")
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_3ifrl"]
 render_priority = 0
@@ -69,7 +69,7 @@ ground_horizon_color = Color(0.780392, 0.992157, 1, 1)
 sky_material = SubResource("ProceduralSkyMaterial_onqla")
 
 [sub_resource type="Environment" id="Environment_fx7rt"]
-background_mode = 2
+background_mode = 1
 sky = SubResource("Sky_w0xmk")
 ambient_light_source = 1
 tonemap_mode = 2
@@ -79,26 +79,26 @@ ssao_enabled = true
 ssil_enabled = true
 glow_enabled = true
 
-[node name="Level" type="Node3D"]
+[node name="Level" type="Node3D" unique_id=943105663]
 
-[node name="Planet" type="Node3D" parent="."]
+[node name="Planet" type="Node3D" parent="." unique_id=1022420493]
 script = ExtResource("1_8qujs")
 
-[node name="Water" type="MeshInstance3D" parent="Planet"]
+[node name="Water" type="MeshInstance3D" parent="Planet" unique_id=1507815275]
 transparency = 0.1
 cast_shadow = 0
 mesh = SubResource("SphereMesh_sg8se")
 
-[node name="CameraController" type="Node3D" parent="."]
+[node name="CameraController" type="Node3D" parent="." unique_id=1669943666]
 script = ExtResource("2_anx2t")
 
-[node name="Orbit" type="Node3D" parent="CameraController"]
+[node name="Orbit" type="Node3D" parent="CameraController" unique_id=931136438]
 
-[node name="Camera" type="Camera3D" parent="CameraController/Orbit"]
+[node name="Camera" type="Camera3D" parent="CameraController/Orbit" unique_id=956611768]
 transform = Transform3D(1, 0, 1.49012e-07, 0, 1, 0, -1.49012e-07, 0, 1, 0, 0, 16.1475)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="WorldEnvironment" type="WorldEnvironment" parent="." unique_id=1815678081]
 environment = SubResource("Environment_fx7rt")
 
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="." unique_id=2091121517]
 transform = Transform3D(1, 0, 0, 0, 0.707107, -0.707107, 0, 0.707107, 0.707107, 0, 0, 0)
